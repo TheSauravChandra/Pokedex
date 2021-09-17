@@ -4,35 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools">
   
   <data>
-    
-    <variable
-        name="photo"
-        type="String" />
   
     <variable
         name="name"
         type="String" />
-    
-    <import type="com.saurav.pokedex.R" />
   
+    <variable
+        name="level"
+        type="String" />
+  
+    <variable
+        name="hp"
+        type="String" />
+  
+    <variable
+        name="types"
+        type="String" />
+  
+    <import type="com.saurav.pokedex.R" />
+
   </data>
   
   
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="wrap_content">
+    
     
     <ImageView
         android:id="@+id/ivPic"
         android:layout_width="110dp"
         android:layout_height="150dp"
         android:layout_margin="20dp"
-        app:elseDrawable="@{R.drawable.ic_android_black_24dp}"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tryUrl="@{photo}"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:background="@color/black" />
-  
+    
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
@@ -46,6 +54,47 @@
         app:layout_constraintLeft_toRightOf="@id/ivPic"
         app:layout_constraintTop_toTopOf="@id/ivPic"
         tools:text="Pokemon Name" />
+    
+    
+    <TextView
+        android:id="@+id/tvLv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="serif-monospace"
+        android:text="@{name, default = 0}"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toRightOf="@id/ivPic"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        tools:text="LV 20" />
+    
+    
+    <TextView
+        android:id="@+id/tvHp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="serif-monospace"
+        android:text="@{name, default = 0}"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toRightOf="@id/tvLv"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        tools:text="HP 32" />
+    
+    <TextView
+        android:id="@+id/tvTypes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="serif-monospace"
+        android:text="@{types, default = ``}"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toRightOf="@id/ivPic"
+        app:layout_constraintTop_toBottomOf="@id/tvHp"
+        tools:text="Grass, Metal" />
   
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

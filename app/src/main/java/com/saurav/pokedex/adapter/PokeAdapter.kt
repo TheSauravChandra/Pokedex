@@ -3,7 +3,10 @@ package com.saurav.pokedex.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.saurav.pokedex.R
 import com.saurav.pokedex.beans.Pokemon
 import com.saurav.pokedex.databinding.PokeMiniCardBinding
 
@@ -24,11 +27,15 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
     
     fun setData(data: Pokemon?) {
       data?.run {
-        binding.name = name
-        
+        binding.name = name ?: ""
         images?.small?.let {
-          binding.photo = it
+          Glide.with(context).load(it).into(binding.ivPic)
+        } ?: run {
+          binding.ivPic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_android_black_24dp))
         }
+        binding.level = level
+        binding.hp = hp
+        binding.types = types.toString()
       }
       
       binding.root.setOnClickListener {

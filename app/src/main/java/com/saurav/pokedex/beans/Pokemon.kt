@@ -16,7 +16,7 @@ data class Pokemon(
   val images: Images?,
   val legalities: Legalities,
   val level: String,
-  val name: String,
+  val name: String?,
   val nationalPokedexNumbers: List<Int>,
   val number: String,
   val rarity: String,

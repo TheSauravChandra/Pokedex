@@ -2,6 +2,7 @@ package com.saurav.pokedex.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 import com.saurav.pokedex.R
 import com.saurav.pokedex.beans.Pokemon
 import com.saurav.pokedex.utils.Constants.POKEMON
@@ -18,8 +19,8 @@ class PokeDetail : AppCompatActivity() {
   }
   
   fun getExtras() {
-    (intent.extras?.getSerializable(POKEMON) as? Pokemon)?.let {
-      pokemon = it
+    intent.extras?.getString(POKEMON)?.let {
+      pokemon = Gson().fromJson(it, Pokemon::class.java)
     } ?: run {
       finish()
     }
