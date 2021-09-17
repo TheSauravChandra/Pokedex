@@ -15,6 +15,11 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
     this.callBack = gc
   }
   
+  fun addList(items: ArrayList<Pokemon>) {
+    list.addAll(items)
+    notifyDataSetChanged()
+  }
+  
   inner class ViewHolder(var binding: PokeMiniCardBinding) : RecyclerView.ViewHolder(binding.root) {
     
     fun setData(data: Pokemon?) {
