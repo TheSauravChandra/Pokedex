@@ -11,7 +11,7 @@ data class Pokemon(
     val flavorText: String,
     val hp: String,
     val id: String,
-    val images: Images,
+    val images: Images?,
     val legalities: Legalities,
     val level: String,
     val name: String,
