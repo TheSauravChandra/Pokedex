@@ -6,7 +6,7 @@ import com.saurav.pokedex.beans.Pokemon
 import kotlinx.coroutines.*
 
 class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
-  private val PAGE_SIZE = 5
+  private val PAGE_SIZE = 20
   private var PAGE_NUM = 1
   
   val errorMessage = MutableLiveData<String>()

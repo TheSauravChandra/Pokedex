@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.saurav.pokedex.R
@@ -11,25 +12,33 @@ import com.saurav.pokedex.beans.Pokemon
 import com.saurav.pokedex.databinding.PokeMiniCardBinding
 
 class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapter.ViewHolder>() {
-  private val list = ArrayList<Pokemon>()
+  private var list = ArrayList<Pokemon>()
   private var callBack: ((item: Pokemon?) -> Unit)? = null
   
   fun attachCallback(gc: (item: Pokemon?) -> Unit) {
     this.callBack = gc
   }
   
-  fun addList(items: ArrayList<Pokemon>) {
-    list.addAll(items)
-    notifyDataSetChanged()
+  fun updateList(items: ArrayList<Pokemon>) {
+    val old = list
+    val diffRes: DiffUtil.DiffResult = DiffUtil.calculateDiff(PokeDiffUtil(old, items))
+    list = items
+    diffRes.dispatchUpdatesTo(this)
   }
   
   inner class ViewHolder(var binding: PokeMiniCardBinding) : RecyclerView.ViewHolder(binding.root) {
     
     fun setData(data: Pokemon?) {
       data?.run {
+        val sh = binding.shimmer
+        sh.startShimmer()
         binding.name = name ?: ""
         images?.small?.let {
-          Glide.with(context).load(it).into(binding.ivPic)
+          
+          
+          Glide.with(context)
+            .load(it)
+            .into(binding.ivPic)
         } ?: run {
           binding.ivPic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_android_black_24dp))
         }
@@ -59,5 +68,20 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
   }
   
   override fun getItemCount() = list.size
+  
+  class PokeDiffUtil(private val oldList: ArrayList<Pokemon>, private val newList: ArrayList<Pokemon>) : DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+    
+    override fun getNewListSize() = newList.size
+    
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+      return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+    
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+      return oldList[oldItemPosition] == newList[newItemPosition]
+    }
+    
+  }
   
 }

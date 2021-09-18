@@ -29,4 +29,28 @@ data class Pokemon(
   val tcgplayer: Tcgplayer,
   val types: List<String>,
   val weaknesses: List<Weaknesse>
-) : Serializable
+) : Serializable {
+  override fun equals(other: Any?): Boolean {
+    if (other == null)
+      return false
+    
+    if (javaClass != other.javaClass)
+      return false
+    
+    other as Pokemon
+    
+    if (id != other.id)
+      return false
+    
+    if (name != other.name)
+      return false
+    
+    if (hp != other.hp)
+      return false
+    
+    if (level != other.level)
+      return false
+    
+    return true
+  }
+}

@@ -26,12 +26,4 @@ object AppBindingAdapter {
       .into(view)
   }
   
-  /* Loads images from server url */
-  @BindingAdapter("app:tryUrl", "app:elseDrawable")
-  fun tryLoadImage(view: ImageView, url: String?, @DrawableRes drawable: Int) {
-    Glide.with(view.context)
-      .load(if (!TextUtils.isEmpty(url)) url else drawable)
-      .into(view)
-  }
-  
 }

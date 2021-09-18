@@ -22,13 +22,30 @@
         type="String" />
   
     <import type="com.saurav.pokedex.R" />
+  
+    <import type="android.view.View" />
 
   </data>
   
   
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      tools:background="@color/black">
+    
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:elevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     
     
     <ImageView
@@ -36,10 +53,21 @@
         android:layout_width="110dp"
         android:layout_height="150dp"
         android:layout_margin="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:background="@color/black" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/grey"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/ivPic"
+        app:layout_constraintLeft_toLeftOf="@id/ivPic"
+        app:layout_constraintRight_toRightOf="@id/ivPic"
+        app:layout_constraintTop_toTopOf="@id/ivPic" />
     
     <TextView
         android:id="@+id/tvName"
@@ -50,8 +78,8 @@
         android:text="@{name, default = Unknown}"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/ivPic"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivPic"
         tools:text="Pokemon Name" />
     
@@ -62,9 +90,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:fontFamily="serif-monospace"
-        android:text="@{name, default = 0}"
+        android:text="@{ `LV` + ((level==null)?`0`:level), default = 0}"
         android:textColor="@color/black"
         android:textSize="18dp"
+        android:visibility="@{(level==null)?View.GONE:View.VISIBLE}"
         app:layout_constraintLeft_toRightOf="@id/ivPic"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         tools:text="LV 20" />
@@ -76,9 +105,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:fontFamily="serif-monospace"
-        android:text="@{name, default = 0}"
+        android:text="@{ `HP` + ((hp==null)?`0`:hp), default = 0}"
         android:textColor="@color/black"
         android:textSize="18dp"
+        android:visibility="@{(hp==null)?View.GONE:View.VISIBLE}"
         app:layout_constraintLeft_toRightOf="@id/tvLv"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         tools:text="HP 32" />
