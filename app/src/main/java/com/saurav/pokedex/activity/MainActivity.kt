@@ -1,8 +1,10 @@
 package com.saurav.pokedex.activity
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -19,6 +21,7 @@ import com.saurav.pokedex.utils.Utils.Companion.toast
 import com.saurav.pokedex.vm.PokeRepo
 import com.saurav.pokedex.vm.PokeViewModel
 import com.saurav.pokedex.vm.PokeViewModelFactory
+
 
 class MainActivity : AppCompatActivity() {
   private lateinit var viewModel: PokeViewModel
@@ -42,6 +45,15 @@ class MainActivity : AppCompatActivity() {
   }
   
   private fun initPage() {
+    supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.red)));
+    binding.search.setOnSearchClickListener {
+      toast("search: " + binding.search.query)
+      Log.e("saurav", "search: " + binding.search.query)
+    }
+    binding.search.onActionViewExpanded()
+  
+  
+  
     binding.search.requestFocus()
     binding.btnHpFilter.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_baseline_filter_list_24), null)
     binding.btnLvlFilter.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_baseline_filter_list_24), null)
@@ -72,6 +84,7 @@ class MainActivity : AppCompatActivity() {
   
   private fun setObservers() {
     viewModel.pokeList.observe(this, {
+      binding.pbLoading.visibility = View.GONE
       adapter.updateList(it)
     })
     
@@ -85,6 +98,7 @@ class MainActivity : AppCompatActivity() {
   }
   
   private fun fetchPokemons() {
+    binding.pbLoading.visibility = View.VISIBLE
     viewModel.getAllPokemons()
   }
   
