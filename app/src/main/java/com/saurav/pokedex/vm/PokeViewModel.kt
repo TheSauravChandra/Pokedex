@@ -23,6 +23,7 @@ class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
     loading.postValue(true)
     job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
       val response = mainRepository.getAllPokemons(pageNo, PAGE_SIZE)
+      // MAIN optimised for updating live data
       withContext(Dispatchers.Main) {
         if (response.isSuccessful) {
           response.body()?.data?.let {
