@@ -75,6 +75,11 @@ class MainActivity : AppCompatActivity() {
     }
   }
   
+  override fun onDestroy() {
+    super.onDestroy()
+    toast("Developed by SauravC.\n with ❤️ in Bharat(India)\nhttp://sauravc.dx.am/")
+  }
+  
   private fun handleSortBtnDrawableSetting(state: FilterEnum, btn: Button) {
     btn.setCompoundDrawablesWithIntrinsicBounds(null, null,
       when (state) {
@@ -371,7 +376,10 @@ class MainActivity : AppCompatActivity() {
       }
       setCancelable(false)
       setFinishOnTouchOutside(false)
-      setNeutralButton("Leave App") { _, _ -> finish() }
+      setNeutralButton("Leave App") { _, _ ->
+        toast("Developed by SauravC.\n with ❤️ in Bharat(India)\nhttp://sauravc.dx.am/")
+        finish()
+      }
       show()
     }
   }
