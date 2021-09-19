@@ -21,8 +21,6 @@
         name="types"
         type="String" />
   
-    <import type="com.saurav.pokedex.R" />
-  
     <import type="android.view.View" />
 
   </data>
@@ -32,7 +30,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       tools:background="@color/black">
-    
+  
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -41,6 +39,8 @@
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
+        android:id="@+id/mcvRoundedBg"
+        android:transitionName="card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircleRadius="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -54,30 +54,33 @@
         android:layout_height="150dp"
         android:layout_margin="20dp"
         android:background="@color/grey"
+        android:transitionName="photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+  
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="110dp"
+        android:layout_height="150dp"
+        android:layout_margin="20dp"
+        android:background="@android:color/transparent"
+        android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/grey"
-        android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/ivPic"
-        app:layout_constraintLeft_toLeftOf="@id/ivPic"
-        app:layout_constraintRight_toRightOf="@id/ivPic"
-        app:layout_constraintTop_toTopOf="@id/ivPic" />
-    
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:fontFamily="serif-monospace"
         android:text="@{name, default = Unknown}"
         android:textColor="@color/black"
         android:textSize="20dp"
+        android:transitionName="name"
         app:layout_constraintLeft_toRightOf="@id/ivPic"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivPic"
@@ -90,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:fontFamily="serif-monospace"
-        android:text="@{ `LV` + ((level==null)?`0`:level), default = 0}"
+        android:text="@{ `LV:` + ((level==null)?`0`:level), default = 0}"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:visibility="@{(level==null)?View.GONE:View.VISIBLE}"
@@ -105,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:fontFamily="serif-monospace"
-        android:text="@{ `HP` + ((hp==null)?`0`:hp), default = 0}"
+        android:text="@{ `HP:` + ((hp==null)?`0`:hp), default = 0}"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:visibility="@{(hp==null)?View.GONE:View.VISIBLE}"
@@ -117,10 +120,10 @@
         android:id="@+id/tvTypes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="14dp"
         android:fontFamily="serif-monospace"
         android:text="@{types, default = ``}"
-        android:textColor="@color/black"
+        android:textColor="@color/teal_700"
         android:textSize="16dp"
         app:layout_constraintLeft_toRightOf="@id/ivPic"
         app:layout_constraintTop_toBottomOf="@id/tvHp"

@@ -28,7 +28,7 @@ data class Pokemon(
   val supertype: String,
   val tcgplayer: Tcgplayer,
   val types: List<String>,
-  val weaknesses: List<Weaknesse>
+  val weaknesses: List<Weakness>
 ) : Serializable {
   override fun equals(other: Any?): Boolean {
     if (other == null)

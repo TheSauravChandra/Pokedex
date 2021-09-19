@@ -1,10 +1,13 @@
 package com.saurav.pokedex.activity
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.Pair
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -185,7 +188,7 @@ class MainActivity : AppCompatActivity() {
             binding.tvMsg.text = lastMsg
             binding.tvMsg.setOnClickListener {}
           }
-  
+    
           return
         }
   
@@ -270,17 +273,17 @@ class MainActivity : AppCompatActivity() {
             list.sortByDescending { it.level?.toInt() ?: 0 }
         }
       }
-      
+  
       Log.e(TAG, "SORT hp/lv $HpOrLvl filter $filter")
       list.forEach {
         Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
       }
-      
+  
       adapter.updateList(list)
-      adapter.notifyDataSetChanged()
-      
+      adapter.notifyDataSetChanged() // have to understand, why UI doesn't update with Diff Util here.
+  
       if (filter != FilterEnum.OFF)
-        showUserMsgBar("Sorted in ${if (filter == FilterEnum.DSC) "Descending" else "Ascending"} of ${if (HpOrLvl) "HP" else "Level"} ${it.size} Pokemon")
+        showUserMsgBar("${if (filter == FilterEnum.DSC) "Descending" else "Ascending"} Sorted by ${if (HpOrLvl) "HP" else "Level"} in ${it.size} Pokemon")
     } ?: run {
       showUserMsgBar("Unable to Sort in 0 Pokemon")
     }
@@ -300,6 +303,7 @@ class MainActivity : AppCompatActivity() {
         if (!enabledSearch) {
           setAllUnfilteredUnSortedToList()
           bringUserToTop()
+          clearMsg()
         }
         
         // can be in on query
@@ -359,11 +363,26 @@ class MainActivity : AppCompatActivity() {
   }
   
   private fun handleCardClicks() {
-    adapter.attachCallback {
-      it?.let {
-        startActivity(Intent(this, PokeDetail::class.java).apply {
-          putExtra(Constants.POKEMON, Gson().toJson(it))
-        })
+    adapter.attachCallback { data, card ->
+      data?.let {
+      
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        
+          val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            Pair(card.ivPic, "photo"), Pair(card.mcvRoundedBg, "card")
+          )
+        
+          startActivity(Intent(this, PokeDetail::class.java).apply {
+            putExtra(Constants.POKEMON, Gson().toJson(it))
+          }, options.toBundle())
+        
+        } else {
+          startActivity(Intent(this, PokeDetail::class.java).apply {
+            putExtra(Constants.POKEMON, Gson().toJson(it))
+          })
+        }
+      
       } ?: kotlin.run {
         toast(R.string.some_error_occurred)
       }

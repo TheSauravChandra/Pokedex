@@ -13,9 +13,9 @@ import com.saurav.pokedex.databinding.PokeMiniCardBinding
 
 class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapter.ViewHolder>() {
   private var list = ArrayList<Pokemon>()
-  private var callBack: ((item: Pokemon?) -> Unit)? = null
+  private var callBack: ((item: Pokemon?, card: PokeMiniCardBinding) -> Unit)? = null
   
-  fun attachCallback(gc: (item: Pokemon?) -> Unit) {
+  fun attachCallback(gc: (item: Pokemon?, card: PokeMiniCardBinding) -> Unit) {
     this.callBack = gc
   }
   
@@ -36,20 +36,8 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
         sh.startShimmer()
         binding.name = name ?: ""
         images?.small?.let {
-          
-          
           Glide.with(context)
             .load(it)
-            //            .listener(object : RequestListener<String> {
-//              override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<String>?, isFirstResource: Boolean): Boolean {
-//                return false
-//              }
-//
-//              override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<String>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-//                sh.hideShimmer()
-//                return false
-//              }
-//            })
             .into(binding.ivPic)
         } ?: run {
           binding.ivPic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_android_black_24dp))
@@ -60,7 +48,7 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
       }
       
       binding.root.setOnClickListener {
-        callBack?.let { it(data) }
+        callBack?.let { it(data, binding) }
       }
       
     }

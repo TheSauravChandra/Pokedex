@@ -1,9 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.PokeDetail">
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    xmlns:tools="http://schemas.android.com/tools">
+  
+  <data>
+    
+    <variable
+        name="name"
+        type="String" />
+    
+    <variable
+        name="level"
+        type="String" />
+    
+    <variable
+        name="hp"
+        type="String" />
+    
+    <variable
+        name="types"
+        type="String" />
+    
+    <variable
+        name="subTypes"
+        type="String" />
+    
+    <variable
+        name="attacks"
+        type="String" />
+    
+    <variable
+        name="weakness"
+        type="String" />
+    
+    <variable
+        name="abilities"
+        type="String" />
+    
+    <variable
+        name="resistances"
+        type="String" />
+    
+    <import type="android.view.View" />
+  
+  </data>
+  
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.PokeDetail">
+      
+      <com.google.android.material.card.MaterialCardView
+          android:id="@+id/materialCardView"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:layout_margin="14dp"
+          android:clickable="true"
+          android:elevation="2dp"
+          android:transitionName="card"
+          app:cardBackgroundColor="@color/white"
+          app:cardCornerRadius="10dp"
+          app:cardElevation="0dp"
+          app:layout_constraintBottom_toBottomOf="@id/space"
+          app:layout_constraintCircleRadius="10dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+      
+      
+      <ImageView
+          android:id="@+id/ivPic"
+          android:layout_width="220dp"
+          android:layout_height="300dp"
+          android:layout_margin="20dp"
+          android:background="@android:color/transparent"
+          android:transitionName="photo"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/tvName" />
+      
+      <ImageView
+          android:id="@+id/ivPicHD"
+          android:layout_width="220dp"
+          android:layout_height="300dp"
+          android:layout_margin="20dp"
+          android:background="@android:color/transparent"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/tvName" />
+      
+      <TextView
+          android:id="@+id/tvName"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:gravity="center"
+          android:text="@{name, default = Unknown}"
+          android:textColor="@color/black"
+          android:textSize="32dp"
+          android:textStyle="bold"
+          android:transitionName="name"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/materialCardView"
+          tools:text="Pokemon Name" />
+      
+      
+      <TextView
+          android:id="@+id/tvLv"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{ `LV:` + ((level==null)?`0`:level), default = 0}"
+          android:textColor="@color/black"
+          android:textSize="18dp"
+          android:visibility="@{(level==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/ivPic"
+          tools:text="LV 20" />
+      
+      
+      <TextView
+          android:id="@+id/tvHp"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{ `HP:` + ((hp==null)?`0`:hp), default = 0}"
+          android:textColor="@color/black"
+          android:textSize="18dp"
+          android:visibility="@{(hp==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintStart_toEndOf="@+id/tvLv"
+          app:layout_constraintTop_toBottomOf="@+id/ivPic"
+          tools:text="HP 32" />
+      
+      <TextView
+          android:id="@+id/tvTypes"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{`TYPES:`+types, default = ``}"
+          android:textColor="@color/black"
+          android:textSize="12dp"
+          android:visibility="@{(types==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintEnd_toEndOf="@+id/ivPic"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/tvHp"
+          tools:text="Grass, Metal" />
+      
+      
+      <TextView
+          android:id="@+id/tvSubTypes"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{`SUB-TYPES:`+subTypes, default = ``}"
+          android:textColor="@color/black"
+          android:textSize="12dp"
+          android:visibility="@{(subTypes==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintEnd_toEndOf="@+id/ivPic"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/tvTypes"
+          tools:text="Subtype" />
+      
+      
+      <TextView
+          android:id="@+id/tvAttack"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{`ATTACKS:\n`+attacks, default = ``}"
+          android:textColor="@color/black"
+          android:textSize="12dp"
+          android:visibility="@{(attacks==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintEnd_toEndOf="@+id/ivPic"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/tvSubTypes"
+          tools:text="Attack" />
+      
+      
+      <TextView
+          android:id="@+id/tvWeakness"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{`WEAKNESS:\n`+weakness, default = ``}"
+          android:textColor="@color/black"
+          android:textSize="12dp"
+          android:visibility="@{(weakness==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintEnd_toEndOf="@+id/ivPic"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/tvAttack"
+          tools:text="Weakness" />
+      
+      
+      <TextView
+          android:id="@+id/tvAbilities"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{`ABILITIES:\n`+abilities, default = ``}"
+          android:textColor="@color/black"
+          android:textSize="12dp"
+          android:visibility="@{(abilities==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintEnd_toEndOf="@+id/ivPic"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/tvWeakness"
+          tools:text="Abilities" />
+      
+      
+      <TextView
+          android:id="@+id/tvResistances"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:fontFamily="serif-monospace"
+          android:text="@{`RESISTANCES:\n`+resistances, default = ``}"
+          android:textColor="@color/black"
+          android:textSize="12dp"
+          android:visibility="@{(resistances==null)?View.GONE:View.VISIBLE}"
+          app:layout_constraintEnd_toEndOf="@+id/ivPic"
+          app:layout_constraintStart_toStartOf="@+id/ivPic"
+          app:layout_constraintTop_toBottomOf="@+id/tvAbilities"
+          tools:text="Resistances" />
+      
+      <Space
+          android:id="@+id/space"
+          android:layout_width="0dp"
+          android:layout_height="30dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/tvResistances" />
+    
+    
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </ScrollView>
+</layout>
