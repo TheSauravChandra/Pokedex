@@ -22,26 +22,26 @@
         android:id="@+id/btnHpFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:backgroundTint="@color/white"
         android:drawableRight="@drawable/ic_baseline_filter_list_24"
         android:text="HP"
-        android:layout_margin="1dp"
-        android:textSize="10dp"
-        android:backgroundTint="@color/white"
         android:textColor="@color/black"
+        android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="@id/search"
         app:layout_constraintRight_toLeftOf="@id/btnLvlFilter"
         app:layout_constraintTop_toTopOf="@id/search" />
-    
+  
     <Button
         android:id="@+id/btnLvlFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:backgroundTint="@color/white"
         android:drawableRight="@drawable/ic_baseline_filter_list_24"
         android:text="LV"
-        android:layout_margin="1dp"
-        android:textSize="10dp"
-        android:backgroundTint="@color/white"
         android:textColor="@color/black"
+        android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="@id/search"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/search" />
@@ -51,7 +51,7 @@
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvMsg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search" />
@@ -67,6 +67,20 @@
         app:layout_constraintEnd_toEndOf="@+id/rvList"
         app:layout_constraintStart_toStartOf="@+id/rvList"
         app:layout_constraintTop_toTopOf="@+id/rvList" />
+  
+    <TextView
+        android:id="@+id/tvMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:gravity="center"
+        android:paddingVertical="6dp"
+        android:text="Searched in current fetched Pokemon"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

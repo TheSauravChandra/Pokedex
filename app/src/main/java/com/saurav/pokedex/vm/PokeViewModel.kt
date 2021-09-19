@@ -10,27 +10,32 @@ class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
   private var PAGE_NUM = 1
   
   val errorMessage = MutableLiveData<String>()
-  val pokeList = MutableLiveData<ArrayList<Pokemon>>()
+  val pokeList = MutableLiveData(ArrayList<Pokemon>())
   var job: Job? = null
   
-  val loading = MutableLiveData<Boolean>()
+  val loading = MutableLiveData(false)
   
   val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
     onError("Exception handled: ${throwable.localizedMessage}")
   }
   
-  fun getAllPokemons() {
+  fun getMorePokemon() {
     loading.postValue(true)
     job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
       val response = mainRepository.getAllPokemons(PAGE_NUM, PAGE_SIZE)
       withContext(Dispatchers.Main) {
         if (response.isSuccessful) {
-          pokeList.postValue(response.body()?.data)
-          loading.postValue(false)
+          response.body()?.data?.let {
+            ArrayList(pokeList.value).apply {
+              addAll(it)
+              pokeList.postValue(this)
+            }
+          }
           ++PAGE_NUM
         } else {
           onError("Error : ${response.message()} ")
         }
+          loading.postValue(false)
       }
     }
     

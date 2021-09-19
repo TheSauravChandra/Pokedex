@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface RetrofitService {
   
-  @GET(Constants.FETCH_POKEMONS)
+  @GET(Constants.FETCH_POKEMON)
   suspend fun getEmAll(@Query("page") page: Int, @Query("pageSize") pageSize: Int): Response<PokemonList>
   // page >=1, pageSize = 5
   
