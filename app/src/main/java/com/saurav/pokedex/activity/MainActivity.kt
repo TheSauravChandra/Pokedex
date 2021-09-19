@@ -99,8 +99,13 @@ class MainActivity : AppCompatActivity() {
   }
   
   
-  private fun setAllUnfilteredToList() {
+  private fun setAllUnfilteredUnSortedToList() {
     adapter.updateList(viewModel.pokeList.value ?: ArrayList())
+  
+    Log.e(TAG, "UNFILTERED")
+    adapter.getList().forEach {
+      Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
+    }
   }
   
   private fun showUserMsgBar(msg: String) {
@@ -137,6 +142,12 @@ class MainActivity : AppCompatActivity() {
         res
       } as ArrayList
       adapter.updateList(filtered)
+  
+      Log.e(TAG, "FILTERED")
+      adapter.getList().forEach {
+        Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
+      }
+  
       showUserMsgBar("Found ${filtered.size} in current fetched ${it.size} Pokemon")
     } ?: run {
       showUserMsgBar("Unable to Search in 0 Pokemon")
@@ -174,7 +185,7 @@ class MainActivity : AppCompatActivity() {
             binding.tvMsg.text = lastMsg
             binding.tvMsg.setOnClickListener {}
           }
-          
+  
           return
         }
   
@@ -186,7 +197,7 @@ class MainActivity : AppCompatActivity() {
               clearAllSort()
               bringUserToTop()
               clearMsg()
-              setAllUnfilteredToList()
+              setAllUnfilteredUnSortedToList()
               binding.tvMsg.setOnClickListener {}
             }
           } else {
@@ -236,23 +247,27 @@ class MainActivity : AppCompatActivity() {
   
   private fun manageSort(filter: FilterEnum, HpOrLvl: Boolean) {
     adapter.getList().let {
-      val list = it
+      var list = it
       
       when (filter) {
         FilterEnum.OFF -> {
+          // recalculate search from global source, as previous order = ASC always
+          list = viewModel.pokeList.value!!
+            .filter { it.name?.contains(binding.search.query, ignoreCase = true) ?: false }
+              as ArrayList
           binding.tvMsg.visibility = View.GONE
         }
         FilterEnum.ASC -> {
           if (HpOrLvl)
-            list.sortBy { it.hp }
+            list.sortBy { it.hp?.toInt() ?: 0 }
           else
-            list.sortBy { it.level }
+            list.sortBy { it.level?.toInt() ?: 0 }
         }
         FilterEnum.DSC -> {
           if (HpOrLvl)
-            list.sortByDescending { it.hp }
+            list.sortByDescending { it.hp?.toInt() ?: 0 }
           else
-            list.sortByDescending { it.level }
+            list.sortByDescending { it.level?.toInt() ?: 0 }
         }
       }
       
@@ -283,7 +298,8 @@ class MainActivity : AppCompatActivity() {
         
         // always in text change
         if (!enabledSearch) {
-          setAllUnfilteredToList()
+          setAllUnfilteredUnSortedToList()
+          bringUserToTop()
         }
         
         // can be in on query
@@ -300,6 +316,12 @@ class MainActivity : AppCompatActivity() {
   private fun setObservers() {
     viewModel.pokeList.observe(this, {
       adapter.updateList(it)
+  
+      Log.e(TAG, "JUST FETCHED (${viewModel.pageNo})")
+      adapter.getList().forEach {
+        Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
+      }
+  
       if (viewModel.pageNo > 2)
         binding.rvList.smoothScrollBy(0, 250)
       binding.search.queryHint = "Search in ${it.size}"
