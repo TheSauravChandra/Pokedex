@@ -38,6 +38,16 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
           
           Glide.with(context)
             .load(it)
+            //            .listener(object : RequestListener<String> {
+//              override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<String>?, isFirstResource: Boolean): Boolean {
+//                return false
+//              }
+//
+//              override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<String>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+//                sh.hideShimmer()
+//                return false
+//              }
+//            })
             .into(binding.ivPic)
         } ?: run {
           binding.ivPic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_android_black_24dp))

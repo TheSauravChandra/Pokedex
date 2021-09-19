@@ -56,6 +56,10 @@ class MainActivity : AppCompatActivity() {
   private fun initPage() {
     supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.red)))
     binding.search.onActionViewExpanded() // expanded search
+    binding.btnMoveUp.setOnClickListener {
+      if ((binding.rvList.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() > 1)
+        bringUserToTop()
+    }
     hideKeyboard(this, currentFocus)
     clearToggle()
     clearMsg()
@@ -81,6 +85,7 @@ class MainActivity : AppCompatActivity() {
   }
   
   private fun bringUserToTop() {
+    binding.btnMoveUp.visibility = View.GONE
     binding.rvList.smoothScrollToPosition(0)
   }
   
@@ -114,9 +119,12 @@ class MainActivity : AppCompatActivity() {
     binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
       override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        
+  
+        val firstVisiblePos = (binding.rvList.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
         val lastVisiblePos = (binding.rvList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-        
+  
+        binding.btnMoveUp.visibility = if (firstVisiblePos != 0) View.VISIBLE else View.GONE
+  
         if (enabledSearch) {
           if (adapter.itemCount == lastVisiblePos + 1) {
             binding.tvMsg.text = "Turn Search & Sort OFF, to load more Pokemon"
@@ -153,21 +161,21 @@ class MainActivity : AppCompatActivity() {
         enabledSearch = !TextUtils.isEmpty(query)
         return false
       }
-    
+  
       override fun onQueryTextChange(newText: String?): Boolean {
         enabledSearch = !TextUtils.isEmpty(newText)
-      
+    
         // always in text change
         if (!enabledSearch) {
           setAllUnfilteredToList()
         }
-      
+    
         // can be in on query
         if (enabledSearch) {
           showUserMsgBar("Searching \"${newText!!}\" in fetched ${viewModel.pokeList.value?.size ?: 0} Pokemon")
           manageSearch(newText!!)
         }
-      
+    
         return false
       }
     });
@@ -176,7 +184,8 @@ class MainActivity : AppCompatActivity() {
   private fun setObservers() {
     viewModel.pokeList.observe(this, {
       adapter.updateList(it)
-      binding.rvList.smoothScrollBy(0, 250)
+      if (viewModel.pageNo > 2)
+        binding.rvList.smoothScrollBy(0, 250)
       binding.search.queryHint = "Search in ${it.size}"
     })
   

@@ -7,7 +7,7 @@ import kotlinx.coroutines.*
 
 class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
   private val PAGE_SIZE = 20
-  private var PAGE_NUM = 1
+  var pageNo = 1
   
   val errorMessage = MutableLiveData<String>()
   val pokeList = MutableLiveData(ArrayList<Pokemon>())
@@ -22,7 +22,7 @@ class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
   fun getMorePokemon() {
     loading.postValue(true)
     job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-      val response = mainRepository.getAllPokemons(PAGE_NUM, PAGE_SIZE)
+      val response = mainRepository.getAllPokemons(pageNo, PAGE_SIZE)
       withContext(Dispatchers.Main) {
         if (response.isSuccessful) {
           response.body()?.data?.let {
@@ -31,7 +31,7 @@ class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
               pokeList.postValue(this)
             }
           }
-          ++PAGE_NUM
+          ++pageNo
         } else {
           onError("Error : ${response.message()} ")
         }
