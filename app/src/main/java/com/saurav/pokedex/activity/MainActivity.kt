@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.util.Pair
 import android.view.View
 import android.widget.Button
@@ -104,11 +103,6 @@ class MainActivity : AppCompatActivity() {
   
   private fun setAllUnfilteredUnSortedToList() {
     adapter.updateList(viewModel.pokeList.value ?: ArrayList())
-  
-    Log.e(TAG, "UNFILTERED")
-    adapter.getList().forEach {
-      Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
-    }
   }
   
   private fun showUserMsgBar(msg: String) {
@@ -139,17 +133,8 @@ class MainActivity : AppCompatActivity() {
   
   private fun manageSearch(query: String) {
     viewModel.pokeList.value?.let {
-      val filtered = it.filter {
-        val res = it.name?.contains(query, ignoreCase = true) ?: false
-        Log.e(TAG, "name: ${it.name}, id: ${it.id}, CONTAINS res: $res")
-        res
-      } as ArrayList
+      val filtered = it.filter { it.name?.contains(query, ignoreCase = true) ?: false } as ArrayList
       adapter.updateList(filtered)
-  
-      Log.e(TAG, "FILTERED")
-      adapter.getList().forEach {
-        Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
-      }
   
       showUserMsgBar("Found ${filtered.size} in current fetched ${it.size} Pokemon")
     } ?: run {
@@ -274,11 +259,6 @@ class MainActivity : AppCompatActivity() {
         }
       }
   
-      Log.e(TAG, "SORT hp/lv $HpOrLvl filter $filter")
-      list.forEach {
-        Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
-      }
-  
       adapter.updateList(list)
       adapter.notifyDataSetChanged() // have to understand, why UI doesn't update with Diff Util here.
   
@@ -320,11 +300,6 @@ class MainActivity : AppCompatActivity() {
   private fun setObservers() {
     viewModel.pokeList.observe(this, {
       adapter.updateList(it)
-  
-      Log.e(TAG, "JUST FETCHED (${viewModel.pageNo})")
-      adapter.getList().forEach {
-        Log.e(TAG, " hp ${it.hp}, lv ${it.level}")
-      }
   
       if (viewModel.pageNo > 2)
         binding.rvList.smoothScrollBy(0, 250)
