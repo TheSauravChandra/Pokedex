@@ -36,7 +36,6 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
     
     fun setData(data: Pokemon?) {
       data?.run {
-        binding.shimmer.startShimmer()
         binding.name = name ?: ""
         images?.small?.let {
           Glide.with(context)
