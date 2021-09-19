@@ -30,15 +30,14 @@ import com.saurav.pokedex.utils.Utils.Companion.hideKeyboard
 import com.saurav.pokedex.utils.Utils.Companion.toast
 import com.saurav.pokedex.vm.PokeRepo
 import com.saurav.pokedex.vm.PokeViewModel
-import com.saurav.pokedex.vm.PokeViewModelFactory
-
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
   private val TAG = "bharat"
-  private lateinit var viewModel: PokeViewModel
-  private val retrofitService = RetrofitService.getInstance()
-  private val pokeRepo = PokeRepo(retrofitService)
-  private val adapter = PokeAdapter(this)
+  private val viewModel: PokeViewModel by viewModel<PokeViewModel>()
+  private val adapter: PokeAdapter by inject<PokeAdapter>()
   private lateinit var binding: ActivityMainBinding
   private var enabledSearch = false
   private var filterHPsort: FilterEnum = FilterEnum.OFF
@@ -49,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     setContentView(binding?.root)
-    viewModel = ViewModelProvider(this, PokeViewModelFactory(pokeRepo)).get(PokeViewModel::class.java)
     initPage()
     setRecyclerView()
     handleCardClicks()
