@@ -19,6 +19,8 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
     this.callBack = gc
   }
   
+  fun getList() = list
+  
   fun updateList(items: ArrayList<Pokemon>) {
     val old = list
     val diffRes: DiffUtil.DiffResult = DiffUtil.calculateDiff(PokeDiffUtil(old, items))
