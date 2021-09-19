@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -120,7 +121,7 @@ class MainActivity : AppCompatActivity() {
       override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
   
-        val firstVisiblePos = (binding.rvList.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        val firstVisiblePos = (binding.rvList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
         val lastVisiblePos = (binding.rvList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
   
         binding.btnMoveUp.visibility = if (firstVisiblePos != 0) View.VISIBLE else View.GONE
@@ -206,7 +207,18 @@ class MainActivity : AppCompatActivity() {
   }
   
   private fun askTurnOnInternet() {
-  
+    with(AlertDialog.Builder(this))
+    {
+      setTitle("Please Turn ON Internet")
+      setMessage("After that you can retry:")
+      setPositiveButton("Retry") { p0, p1 ->
+        fetchPokemon()
+      }
+      setCancelable(false)
+      setFinishOnTouchOutside(false)
+      setNeutralButton("Leave App") { _, _ -> finish() }
+      show()
+    }
   }
   
   private fun handleCardClicks() {
