@@ -1,5 +1,6 @@
 package com.saurav.pokedex.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.saurav.pokedex.beans.Pokemon
@@ -11,9 +12,12 @@ class PokeViewModel(private val mainRepository: PokeRepo) : ViewModel() {
   
   val errorMessage = MutableLiveData<String>()
   val pokeList = MutableLiveData(ArrayList<Pokemon>())
+  val loading = MutableLiveData(false)
   var job: Job? = null
   
-  val loading = MutableLiveData(false)
+  fun getErr(): LiveData<String> = errorMessage
+  fun getLoading(): LiveData<Boolean> = loading
+  fun getPokeList(): LiveData<ArrayList<Pokemon>> = pokeList
   
   val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
     onError("Exception handled: ${throwable.localizedMessage}")

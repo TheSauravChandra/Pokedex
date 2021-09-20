@@ -336,7 +336,7 @@ class MainActivity : AppCompatActivity() {
   }
   
   private fun setObservers() {
-    viewModel.pokeList.observe(this, {
+    viewModel.getPokeList().observe(this, {
       // diff util now will handle updations by min. effort.
       adapter.updateList(it)
       // ux: indicate more available by little scroll
@@ -348,11 +348,11 @@ class MainActivity : AppCompatActivity() {
       binding.search.queryHint = "Search in ${it.size}"
     })
   
-    viewModel.errorMessage.observe(this, {
+    viewModel.getErr().observe(this, {
       toast(it)
     })
   
-    viewModel.loading.observe(this, {
+    viewModel.getLoading().observe(this, {
       // loading pokeball
       binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
     })
