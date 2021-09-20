@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Saurav\'s Pokedex</string>
+  <string name="some_error_occurred">Sorry, Some Error Occurred.</string>
 </resources>
