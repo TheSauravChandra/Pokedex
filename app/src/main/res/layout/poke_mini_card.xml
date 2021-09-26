@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="14dp"
         android:fontFamily="serif-monospace"
-        android:text="@{types, default = ``}"
+        android:text="@{types, default = ` `}"
         android:textColor="@color/teal_700"
         android:textSize="16dp"
         app:layout_constraintLeft_toRightOf="@id/ivPic"
